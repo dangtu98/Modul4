@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="products/layout::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Danh Sách Sản Phẩm</h1>
+<a th:href="@{/products/create}">Tạo Sản Phẩm Mới</a>
+
+<table id="products">
+  <tr>
+    <th>Mã SP</th>
+    <th>Tên SP</th>
+    <th>Giá SP</th>
+    <th>Mô Tả SP</th>
+    <th>Ảnh SP</th>
+    <th colspan="2">Lựa Chọn</th>
+  </tr>
+
+  <tr th:each="product : ${products}" >
+    <td th:text="${product.id}"></td>
+
+    <td>
+      <a th:href="@{/products/__${product.id}__}" th:text="${product.name}"></a>
+    </td>
+
+    <td th:text="${product.price}"></td>
+
+    <td th:text="${product.description}"></td>
+
+    <td><img th:src="@{${product.image}}" height="100"></td>
+
+    <td><a th:href="@{/products/edit/__${product.id}__}">SỬA</a></td>
+
+    <td><a th:href="@{/products/delete/__${product.id}__}">XÓA</a></td>
+  </tr>
+</table>
+</body>
+</html>
