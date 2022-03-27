@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>EDIT customer</h1>
+<a th:href="@{/customers/list}">return List Customers</a>
+<form method="post" th:object="${customer}" enctype="multipart/form-data">
+    <input type="text" placeholder="input id" th:field="*{id}">
+    <input type="text" placeholder="input name" th:field="*{name}">
+    <input type="text" placeholder="input age" th:field="*{age}">
+    <input type="file" th:filed="*{image}">
+    <img th:src="@{/image/__${customer.image}__}" height="50">
+    <button>edit</button>
+</form>
+</body>
+</html>

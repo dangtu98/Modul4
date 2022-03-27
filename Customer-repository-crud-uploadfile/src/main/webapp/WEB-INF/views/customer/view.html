@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>List Customer</h1>
+<a th:href="@{/customers/list}">return List Customers</a>
+<p th:text="${customer.name}"></p>
+<p th:text="${customer.age}"></p>
+<img th:src="@{/image/__${customer.image}__}" height="50">
+</body>
+</html>

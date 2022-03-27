@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Xóa Danh Mục</h1>
+<a th:href="@{/categories/list}">Return Danh Mục</a>
+<form method="post">
+    <p th:text="${category.name}"></p>
+    <button>XÓA</button>
+</form>
+</body>
+</html>
