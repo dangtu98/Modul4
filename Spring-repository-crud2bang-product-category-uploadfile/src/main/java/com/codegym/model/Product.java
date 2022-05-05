@@ -1,6 +1,5 @@
 package com.codegym.model;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -16,13 +15,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "Varchar(50)" ,nullable = false)
+    @Column(columnDefinition = "Varchar(50)", nullable = false)
     private String name;
 
     @Column(nullable = false)
     private double price;
 
-    @Column(columnDefinition = "LONGTEXT" , nullable = false)
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String description;
 
     private String image;
@@ -35,6 +34,14 @@ public class Product {
     }
 
 
+    public Product(Long id, String name, double price, String description, String image, Category category) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+    }
 
     public Product(Long id, String name, double price, String description, String image) {
         this.id = id;

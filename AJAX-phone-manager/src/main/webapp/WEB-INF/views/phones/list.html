@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List SmartPhone</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        function addNewSmartphone() {
+            // Lấy Dữ liệu
+            let producer = $('#producer').val();
+            let model = $('#model').val();
+            let price = $('#price').val();
+            let newSmartPhone = {
+                producer: producer,
+                model: model,
+                price: price
+            };
+
+            // Gọi Ajax
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
+                type: "POST",
+                data: JSON.stringify(newSmartPhone),
+
+                // tên API
+                url: "/smartphones",
+                // Xử lý thành công
+                success: successHandler
+
+            });
+
+            // Chặn Sự Kiện mặc định của thẻ
+            event.preventDefault();
+        }
+
+        function successHandler() {
+            $.ajax({
+                type: "GET",
+                // tên API
+                url: "/smartphones",
+                // xử lý thành công
+                success: function (data) {
+                    // hiện thị danh sách
+                    let content = '<tr>\n' +
+                        '    <td></td>\n' +
+                        '    <td></td>\n' +
+                        '    <td></td>\n' +
+                        '    <td></td>\n' +
+                        '</tr>';
+                    for (let i = 0; i < data.length; i++) {
+                        content += getSmartphone(data[i]);
+                    }
+                    document.getElementById('smartphoneList').innerHTML = content;
+                }
+            });
+        }
+
+        function getSmartphone(smartphone) {
+            return `<tr>
+                       <td>${smartphone.producer}</td>
+                       <td>${smartphone.model}</td>
+                       <td>${smartphone.price}</td> ` + `
+                       <td><a class="deleteSmartphone" href="${smartphone.id}">DELETE</a></td>
+                    </tr>`;
+
+        }
+
+
+        $(document).ready(function () {
+            // Sự kiện nào thực hiện ajax
+            $('.deleteSmartphone').click(function (event){
+                // Lấy dữ liệu
+                let a = $(this);
+                let smartphoneId = a.attr("href");
+                //gọi ajax
+                $.ajax({
+                    type:"DELETE",
+                    //Tên API
+                    url:`/smartphones/${smartphoneId}`,
+                    // Xử lý thành công
+                    success: function (data) {
+                        a.parent().parent().remove();
+                    }
+
+                });
+                // chặn sự kiện của thẻ
+                event.preventDefault();
+            });
+        })
+
+    </script>
+</head>
+<body>
+<form id="add-smartphone">
+    <table>
+        <tr>
+            <td>Producer:</td>
+            <td><input type="text" id="producer" placeholder="producer"></td>
+        </tr>
+        <tr>
+            <td>Model:</td>
+            <td><input type="text" id="model" placeholder="model"></td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td><input type="text" id="price" placeholder="price"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Add" onclick="addNewSmartphone()"></td>
+        </tr>
+    </table>
+</form>
+<h1>Smartphone List</h1>
+<table id="smartphoneList">
+    <tr>
+        <td>Producer</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Delete</td>
+    </tr>
+   <th:block th:each="smartphone : ${smartphones}">
+       <tr>
+           <td th:text="${smartphone.producer}"></td>
+           <td th:text="${smartphone.model}"></td>
+           <td th:text="${smartphone.price}"></td>
+           <td><a class="deleteSmartphone" th:href="${smartphone.getId()}">Delete</a></td>
+       </tr>
+   </th:block>
+</table>
+</body>
+</html>
